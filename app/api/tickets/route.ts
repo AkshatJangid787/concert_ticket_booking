@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db";
+import { verifyToken } from "@/lib/jwt";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -6,10 +8,29 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
     try {
-        const { showId, name, email, phone } = await req.json();
+        const cookieStore = await cookies();
+        const token = cookieStore.get("auth_token")?.value;
 
-        if (!showId || !name || !email || !phone) {
-            return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
+        if (!token) {
+            return NextResponse.json({ success: false, message: "Unauthorized: Please login to book tickets" }, { status: 401 });
+        }
+
+        let userId: string;
+        try {
+            const decoded = verifyToken(token);
+            userId = decoded.userId;
+
+            if (decoded.role === "ADMIN") {
+                return NextResponse.json({ success: false, message: "Admins cannot book tickets." }, { status: 403 });
+            }
+        } catch (e) {
+            return NextResponse.json({ success: false, message: "Invalid session" }, { status: 401 });
+        }
+
+        const { showId } = await req.json();
+
+        if (!showId) {
+            return NextResponse.json({ success: false, message: "Show ID is required" }, { status: 400 });
         }
 
         return await prisma.$transaction(async (tx) => {
@@ -43,13 +64,24 @@ export async function POST(req: NextRequest) {
                 }
             }
 
+            // 4. Check if User already has a CONFIRMED ticket for this show
+            const existingTicket = await tx.ticket.findFirst({
+                where: {
+                    showId,
+                    userId,
+                    status: "CONFIRMED"
+                }
+            });
+
+            if (existingTicket) {
+                throw new Error("You have already booked a ticket for this show.");
+            }
+
             // 3. Create the Ticket inside the Transaction
             const ticket = await tx.ticket.create({
                 data: {
                     showId,
-                    name,
-                    email,
-                    phone,
+                    userId, // Link ticket to the logged-in user
                     status: "PENDING"
                 }
             });

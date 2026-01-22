@@ -16,7 +16,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
         const { id } = await params;
 
-        const { title, description, showDate, price, totalSeats } = await req.json();
+        const { title, description, showDate, price, totalSeats, liveEnabled, liveLink } = await req.json();
 
         if (!title || !showDate || !price) {
             return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });
@@ -30,6 +30,8 @@ export async function PUT(req: NextRequest, { params }: Params) {
                 showDate: new Date(showDate),
                 price,
                 totalSeats: totalSeats ?? null,
+                liveEnabled: liveEnabled,
+                liveLink: liveLink,
             },
         });
 

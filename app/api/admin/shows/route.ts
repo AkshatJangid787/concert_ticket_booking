@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     try {
         await requireAdmin(req);
 
-        const { title, description, showDate, price, totalSeats } = await req.json();
+        const { title, description, showDate, price, totalSeats, liveEnabled, liveLink } = await req.json();
 
         if (!title || !showDate || !price) {
             return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });
@@ -22,6 +22,8 @@ export async function POST(req: NextRequest) {
                 showDate: new Date(showDate),
                 price,
                 totalSeats: totalSeats ?? null,
+                liveEnabled: liveEnabled || false,
+                liveLink: liveLink || null,
             },
         });
 
@@ -43,6 +45,15 @@ export async function GET(req: NextRequest) {
             orderBy: {
                 showDate: "asc",
             },
+            include: {
+                _count: {
+                    select: {
+                        tickets: {
+                            where: { status: "CONFIRMED" }
+                        }
+                    }
+                }
+            }
         });
 
         return NextResponse.json({

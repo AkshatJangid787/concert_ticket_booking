@@ -43,6 +43,8 @@ export type ShowMinAggregateOutputType = {
   showDate: Date | null
   price: number | null
   totalSeats: number | null
+  liveEnabled: boolean | null
+  liveLink: string | null
   createdAt: Date | null
 }
 
@@ -53,6 +55,8 @@ export type ShowMaxAggregateOutputType = {
   showDate: Date | null
   price: number | null
   totalSeats: number | null
+  liveEnabled: boolean | null
+  liveLink: string | null
   createdAt: Date | null
 }
 
@@ -63,6 +67,8 @@ export type ShowCountAggregateOutputType = {
   showDate: number
   price: number
   totalSeats: number
+  liveEnabled: number
+  liveLink: number
   createdAt: number
   _all: number
 }
@@ -85,6 +91,8 @@ export type ShowMinAggregateInputType = {
   showDate?: true
   price?: true
   totalSeats?: true
+  liveEnabled?: true
+  liveLink?: true
   createdAt?: true
 }
 
@@ -95,6 +103,8 @@ export type ShowMaxAggregateInputType = {
   showDate?: true
   price?: true
   totalSeats?: true
+  liveEnabled?: true
+  liveLink?: true
   createdAt?: true
 }
 
@@ -105,6 +115,8 @@ export type ShowCountAggregateInputType = {
   showDate?: true
   price?: true
   totalSeats?: true
+  liveEnabled?: true
+  liveLink?: true
   createdAt?: true
   _all?: true
 }
@@ -202,6 +214,8 @@ export type ShowGroupByOutputType = {
   showDate: Date
   price: number
   totalSeats: number | null
+  liveEnabled: boolean
+  liveLink: string | null
   createdAt: Date
   _count: ShowCountAggregateOutputType | null
   _avg: ShowAvgAggregateOutputType | null
@@ -235,6 +249,8 @@ export type ShowWhereInput = {
   showDate?: Prisma.DateTimeFilter<"Show"> | Date | string
   price?: Prisma.IntFilter<"Show"> | number
   totalSeats?: Prisma.IntNullableFilter<"Show"> | number | null
+  liveEnabled?: Prisma.BoolFilter<"Show"> | boolean
+  liveLink?: Prisma.StringNullableFilter<"Show"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Show"> | Date | string
   tickets?: Prisma.TicketListRelationFilter
 }
@@ -246,6 +262,8 @@ export type ShowOrderByWithRelationInput = {
   showDate?: Prisma.SortOrder
   price?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrderInput | Prisma.SortOrder
+  liveEnabled?: Prisma.SortOrder
+  liveLink?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   tickets?: Prisma.TicketOrderByRelationAggregateInput
 }
@@ -260,6 +278,8 @@ export type ShowWhereUniqueInput = Prisma.AtLeast<{
   showDate?: Prisma.DateTimeFilter<"Show"> | Date | string
   price?: Prisma.IntFilter<"Show"> | number
   totalSeats?: Prisma.IntNullableFilter<"Show"> | number | null
+  liveEnabled?: Prisma.BoolFilter<"Show"> | boolean
+  liveLink?: Prisma.StringNullableFilter<"Show"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Show"> | Date | string
   tickets?: Prisma.TicketListRelationFilter
 }, "id">
@@ -271,6 +291,8 @@ export type ShowOrderByWithAggregationInput = {
   showDate?: Prisma.SortOrder
   price?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrderInput | Prisma.SortOrder
+  liveEnabled?: Prisma.SortOrder
+  liveLink?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ShowCountOrderByAggregateInput
   _avg?: Prisma.ShowAvgOrderByAggregateInput
@@ -289,6 +311,8 @@ export type ShowScalarWhereWithAggregatesInput = {
   showDate?: Prisma.DateTimeWithAggregatesFilter<"Show"> | Date | string
   price?: Prisma.IntWithAggregatesFilter<"Show"> | number
   totalSeats?: Prisma.IntNullableWithAggregatesFilter<"Show"> | number | null
+  liveEnabled?: Prisma.BoolWithAggregatesFilter<"Show"> | boolean
+  liveLink?: Prisma.StringNullableWithAggregatesFilter<"Show"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Show"> | Date | string
 }
 
@@ -299,6 +323,8 @@ export type ShowCreateInput = {
   showDate: Date | string
   price: number
   totalSeats?: number | null
+  liveEnabled?: boolean
+  liveLink?: string | null
   createdAt?: Date | string
   tickets?: Prisma.TicketCreateNestedManyWithoutShowInput
 }
@@ -310,6 +336,8 @@ export type ShowUncheckedCreateInput = {
   showDate: Date | string
   price: number
   totalSeats?: number | null
+  liveEnabled?: boolean
+  liveLink?: string | null
   createdAt?: Date | string
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutShowInput
 }
@@ -321,6 +349,8 @@ export type ShowUpdateInput = {
   showDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   totalSeats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  liveEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  liveLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tickets?: Prisma.TicketUpdateManyWithoutShowNestedInput
 }
@@ -332,6 +362,8 @@ export type ShowUncheckedUpdateInput = {
   showDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   totalSeats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  liveEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  liveLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutShowNestedInput
 }
@@ -343,6 +375,8 @@ export type ShowCreateManyInput = {
   showDate: Date | string
   price: number
   totalSeats?: number | null
+  liveEnabled?: boolean
+  liveLink?: string | null
   createdAt?: Date | string
 }
 
@@ -353,6 +387,8 @@ export type ShowUpdateManyMutationInput = {
   showDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   totalSeats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  liveEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  liveLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -363,6 +399,8 @@ export type ShowUncheckedUpdateManyInput = {
   showDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   totalSeats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  liveEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  liveLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -373,6 +411,8 @@ export type ShowCountOrderByAggregateInput = {
   showDate?: Prisma.SortOrder
   price?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
+  liveEnabled?: Prisma.SortOrder
+  liveLink?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -388,6 +428,8 @@ export type ShowMaxOrderByAggregateInput = {
   showDate?: Prisma.SortOrder
   price?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
+  liveEnabled?: Prisma.SortOrder
+  liveLink?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -398,6 +440,8 @@ export type ShowMinOrderByAggregateInput = {
   showDate?: Prisma.SortOrder
   price?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
+  liveEnabled?: Prisma.SortOrder
+  liveLink?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -409,10 +453,6 @@ export type ShowSumOrderByAggregateInput = {
 export type ShowScalarRelationFilter = {
   is?: Prisma.ShowWhereInput
   isNot?: Prisma.ShowWhereInput
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -452,6 +492,8 @@ export type ShowCreateWithoutTicketsInput = {
   showDate: Date | string
   price: number
   totalSeats?: number | null
+  liveEnabled?: boolean
+  liveLink?: string | null
   createdAt?: Date | string
 }
 
@@ -462,6 +504,8 @@ export type ShowUncheckedCreateWithoutTicketsInput = {
   showDate: Date | string
   price: number
   totalSeats?: number | null
+  liveEnabled?: boolean
+  liveLink?: string | null
   createdAt?: Date | string
 }
 
@@ -488,6 +532,8 @@ export type ShowUpdateWithoutTicketsInput = {
   showDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   totalSeats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  liveEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  liveLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -498,6 +544,8 @@ export type ShowUncheckedUpdateWithoutTicketsInput = {
   showDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   totalSeats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  liveEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  liveLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -539,6 +587,8 @@ export type ShowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   showDate?: boolean
   price?: boolean
   totalSeats?: boolean
+  liveEnabled?: boolean
+  liveLink?: boolean
   createdAt?: boolean
   tickets?: boolean | Prisma.Show$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.ShowCountOutputTypeDefaultArgs<ExtArgs>
@@ -551,6 +601,8 @@ export type ShowSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   showDate?: boolean
   price?: boolean
   totalSeats?: boolean
+  liveEnabled?: boolean
+  liveLink?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["show"]>
 
@@ -561,6 +613,8 @@ export type ShowSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   showDate?: boolean
   price?: boolean
   totalSeats?: boolean
+  liveEnabled?: boolean
+  liveLink?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["show"]>
 
@@ -571,10 +625,12 @@ export type ShowSelectScalar = {
   showDate?: boolean
   price?: boolean
   totalSeats?: boolean
+  liveEnabled?: boolean
+  liveLink?: boolean
   createdAt?: boolean
 }
 
-export type ShowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "showDate" | "price" | "totalSeats" | "createdAt", ExtArgs["result"]["show"]>
+export type ShowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "showDate" | "price" | "totalSeats" | "liveEnabled" | "liveLink" | "createdAt", ExtArgs["result"]["show"]>
 export type ShowInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tickets?: boolean | Prisma.Show$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.ShowCountOutputTypeDefaultArgs<ExtArgs>
@@ -594,6 +650,8 @@ export type $ShowPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     showDate: Date
     price: number
     totalSeats: number | null
+    liveEnabled: boolean
+    liveLink: string | null
     createdAt: Date
   }, ExtArgs["result"]["show"]>
   composites: {}
@@ -1025,6 +1083,8 @@ export interface ShowFieldRefs {
   readonly showDate: Prisma.FieldRef<"Show", 'DateTime'>
   readonly price: Prisma.FieldRef<"Show", 'Int'>
   readonly totalSeats: Prisma.FieldRef<"Show", 'Int'>
+  readonly liveEnabled: Prisma.FieldRef<"Show", 'Boolean'>
+  readonly liveLink: Prisma.FieldRef<"Show", 'String'>
   readonly createdAt: Prisma.FieldRef<"Show", 'DateTime'>
 }
     

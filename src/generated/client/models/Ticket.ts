@@ -26,34 +26,28 @@ export type AggregateTicket = {
 
 export type TicketMinAggregateOutputType = {
   id: string | null
-  name: string | null
-  email: string | null
-  phone: string | null
   paymentId: string | null
   status: string | null
   createdAt: Date | null
+  userId: string | null
   showId: string | null
 }
 
 export type TicketMaxAggregateOutputType = {
   id: string | null
-  name: string | null
-  email: string | null
-  phone: string | null
   paymentId: string | null
   status: string | null
   createdAt: Date | null
+  userId: string | null
   showId: string | null
 }
 
 export type TicketCountAggregateOutputType = {
   id: number
-  name: number
-  email: number
-  phone: number
   paymentId: number
   status: number
   createdAt: number
+  userId: number
   showId: number
   _all: number
 }
@@ -61,34 +55,28 @@ export type TicketCountAggregateOutputType = {
 
 export type TicketMinAggregateInputType = {
   id?: true
-  name?: true
-  email?: true
-  phone?: true
   paymentId?: true
   status?: true
   createdAt?: true
+  userId?: true
   showId?: true
 }
 
 export type TicketMaxAggregateInputType = {
   id?: true
-  name?: true
-  email?: true
-  phone?: true
   paymentId?: true
   status?: true
   createdAt?: true
+  userId?: true
   showId?: true
 }
 
 export type TicketCountAggregateInputType = {
   id?: true
-  name?: true
-  email?: true
-  phone?: true
   paymentId?: true
   status?: true
   createdAt?: true
+  userId?: true
   showId?: true
   _all?: true
 }
@@ -167,12 +155,10 @@ export type TicketGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type TicketGroupByOutputType = {
   id: string
-  name: string
-  email: string
-  phone: string
   paymentId: string | null
   status: string
   createdAt: Date
+  userId: string
   showId: string
   _count: TicketCountAggregateOutputType | null
   _min: TicketMinAggregateOutputType | null
@@ -199,25 +185,23 @@ export type TicketWhereInput = {
   OR?: Prisma.TicketWhereInput[]
   NOT?: Prisma.TicketWhereInput | Prisma.TicketWhereInput[]
   id?: Prisma.StringFilter<"Ticket"> | string
-  name?: Prisma.StringFilter<"Ticket"> | string
-  email?: Prisma.StringFilter<"Ticket"> | string
-  phone?: Prisma.StringFilter<"Ticket"> | string
   paymentId?: Prisma.StringNullableFilter<"Ticket"> | string | null
   status?: Prisma.StringFilter<"Ticket"> | string
   createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
+  userId?: Prisma.StringFilter<"Ticket"> | string
   showId?: Prisma.StringFilter<"Ticket"> | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   show?: Prisma.XOR<Prisma.ShowScalarRelationFilter, Prisma.ShowWhereInput>
 }
 
 export type TicketOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   paymentId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
   show?: Prisma.ShowOrderByWithRelationInput
 }
 
@@ -227,23 +211,20 @@ export type TicketWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TicketWhereInput | Prisma.TicketWhereInput[]
   OR?: Prisma.TicketWhereInput[]
   NOT?: Prisma.TicketWhereInput | Prisma.TicketWhereInput[]
-  name?: Prisma.StringFilter<"Ticket"> | string
-  email?: Prisma.StringFilter<"Ticket"> | string
-  phone?: Prisma.StringFilter<"Ticket"> | string
   status?: Prisma.StringFilter<"Ticket"> | string
   createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
+  userId?: Prisma.StringFilter<"Ticket"> | string
   showId?: Prisma.StringFilter<"Ticket"> | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   show?: Prisma.XOR<Prisma.ShowScalarRelationFilter, Prisma.ShowWhereInput>
 }, "id" | "paymentId">
 
 export type TicketOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   paymentId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
   _count?: Prisma.TicketCountOrderByAggregateInput
   _max?: Prisma.TicketMaxOrderByAggregateInput
@@ -255,75 +236,60 @@ export type TicketScalarWhereWithAggregatesInput = {
   OR?: Prisma.TicketScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TicketScalarWhereWithAggregatesInput | Prisma.TicketScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
-  name?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
-  email?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
-  phone?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
   paymentId?: Prisma.StringNullableWithAggregatesFilter<"Ticket"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Ticket"> | Date | string
+  userId?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
   showId?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
 }
 
 export type TicketCreateInput = {
   id?: string
-  name: string
-  email: string
-  phone: string
   paymentId?: string | null
   status?: string
   createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTicketsInput
   show: Prisma.ShowCreateNestedOneWithoutTicketsInput
 }
 
 export type TicketUncheckedCreateInput = {
   id?: string
-  name: string
-  email: string
-  phone: string
   paymentId?: string | null
   status?: string
   createdAt?: Date | string
+  userId: string
   showId: string
 }
 
 export type TicketUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTicketsNestedInput
   show?: Prisma.ShowUpdateOneRequiredWithoutTicketsNestedInput
 }
 
 export type TicketUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   showId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TicketCreateManyInput = {
   id?: string
-  name: string
-  email: string
-  phone: string
   paymentId?: string | null
   status?: string
   createdAt?: Date | string
+  userId: string
   showId: string
 }
 
 export type TicketUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -331,12 +297,10 @@ export type TicketUpdateManyMutationInput = {
 
 export type TicketUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   showId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -352,35 +316,71 @@ export type TicketOrderByRelationAggregateInput = {
 
 export type TicketCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   paymentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
 }
 
 export type TicketMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   paymentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
 }
 
 export type TicketMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   paymentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
+}
+
+export type TicketCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.TicketCreateManyUserInputEnvelope
+  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+}
+
+export type TicketUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.TicketCreateManyUserInputEnvelope
+  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+}
+
+export type TicketUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.TicketUpsertWithWhereUniqueWithoutUserInput | Prisma.TicketUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.TicketCreateManyUserInputEnvelope
+  set?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  disconnect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  delete?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  update?: Prisma.TicketUpdateWithWhereUniqueWithoutUserInput | Prisma.TicketUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.TicketUpdateManyWithWhereWithoutUserInput | Prisma.TicketUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
+}
+
+export type TicketUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.TicketUpsertWithWhereUniqueWithoutUserInput | Prisma.TicketUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.TicketCreateManyUserInputEnvelope
+  set?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  disconnect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  delete?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+  update?: Prisma.TicketUpdateWithWhereUniqueWithoutUserInput | Prisma.TicketUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.TicketUpdateManyWithWhereWithoutUserInput | Prisma.TicketUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
 }
 
 export type TicketCreateNestedManyWithoutShowInput = {
@@ -425,24 +425,74 @@ export type TicketUncheckedUpdateManyWithoutShowNestedInput = {
   deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
 }
 
-export type TicketCreateWithoutShowInput = {
+export type TicketCreateWithoutUserInput = {
   id?: string
-  name: string
-  email: string
-  phone: string
   paymentId?: string | null
   status?: string
   createdAt?: Date | string
+  show: Prisma.ShowCreateNestedOneWithoutTicketsInput
+}
+
+export type TicketUncheckedCreateWithoutUserInput = {
+  id?: string
+  paymentId?: string | null
+  status?: string
+  createdAt?: Date | string
+  showId: string
+}
+
+export type TicketCreateOrConnectWithoutUserInput = {
+  where: Prisma.TicketWhereUniqueInput
+  create: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput>
+}
+
+export type TicketCreateManyUserInputEnvelope = {
+  data: Prisma.TicketCreateManyUserInput | Prisma.TicketCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type TicketUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.TicketWhereUniqueInput
+  update: Prisma.XOR<Prisma.TicketUpdateWithoutUserInput, Prisma.TicketUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput>
+}
+
+export type TicketUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.TicketWhereUniqueInput
+  data: Prisma.XOR<Prisma.TicketUpdateWithoutUserInput, Prisma.TicketUncheckedUpdateWithoutUserInput>
+}
+
+export type TicketUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.TicketScalarWhereInput
+  data: Prisma.XOR<Prisma.TicketUpdateManyMutationInput, Prisma.TicketUncheckedUpdateManyWithoutUserInput>
+}
+
+export type TicketScalarWhereInput = {
+  AND?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
+  OR?: Prisma.TicketScalarWhereInput[]
+  NOT?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
+  id?: Prisma.StringFilter<"Ticket"> | string
+  paymentId?: Prisma.StringNullableFilter<"Ticket"> | string | null
+  status?: Prisma.StringFilter<"Ticket"> | string
+  createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
+  userId?: Prisma.StringFilter<"Ticket"> | string
+  showId?: Prisma.StringFilter<"Ticket"> | string
+}
+
+export type TicketCreateWithoutShowInput = {
+  id?: string
+  paymentId?: string | null
+  status?: string
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTicketsInput
 }
 
 export type TicketUncheckedCreateWithoutShowInput = {
   id?: string
-  name: string
-  email: string
-  phone: string
   paymentId?: string | null
   status?: string
   createdAt?: Date | string
+  userId: string
 }
 
 export type TicketCreateOrConnectWithoutShowInput = {
@@ -471,133 +521,140 @@ export type TicketUpdateManyWithWhereWithoutShowInput = {
   data: Prisma.XOR<Prisma.TicketUpdateManyMutationInput, Prisma.TicketUncheckedUpdateManyWithoutShowInput>
 }
 
-export type TicketScalarWhereInput = {
-  AND?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-  OR?: Prisma.TicketScalarWhereInput[]
-  NOT?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-  id?: Prisma.StringFilter<"Ticket"> | string
-  name?: Prisma.StringFilter<"Ticket"> | string
-  email?: Prisma.StringFilter<"Ticket"> | string
-  phone?: Prisma.StringFilter<"Ticket"> | string
-  paymentId?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  status?: Prisma.StringFilter<"Ticket"> | string
-  createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  showId?: Prisma.StringFilter<"Ticket"> | string
+export type TicketCreateManyUserInput = {
+  id?: string
+  paymentId?: string | null
+  status?: string
+  createdAt?: Date | string
+  showId: string
+}
+
+export type TicketUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  show?: Prisma.ShowUpdateOneRequiredWithoutTicketsNestedInput
+}
+
+export type TicketUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  showId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type TicketUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  showId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TicketCreateManyShowInput = {
   id?: string
-  name: string
-  email: string
-  phone: string
   paymentId?: string | null
   status?: string
   createdAt?: Date | string
+  userId: string
 }
 
 export type TicketUpdateWithoutShowInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTicketsNestedInput
 }
 
 export type TicketUncheckedUpdateWithoutShowInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TicketUncheckedUpdateManyWithoutShowInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
   paymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type TicketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  email?: boolean
-  phone?: boolean
   paymentId?: boolean
   status?: boolean
   createdAt?: boolean
+  userId?: boolean
   showId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  email?: boolean
-  phone?: boolean
   paymentId?: boolean
   status?: boolean
   createdAt?: boolean
+  userId?: boolean
   showId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  email?: boolean
-  phone?: boolean
   paymentId?: boolean
   status?: boolean
   createdAt?: boolean
+  userId?: boolean
   showId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectScalar = {
   id?: boolean
-  name?: boolean
-  email?: boolean
-  phone?: boolean
   paymentId?: boolean
   status?: boolean
   createdAt?: boolean
+  userId?: boolean
   showId?: boolean
 }
 
-export type TicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "paymentId" | "status" | "createdAt" | "showId", ExtArgs["result"]["ticket"]>
+export type TicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "paymentId" | "status" | "createdAt" | "userId" | "showId", ExtArgs["result"]["ticket"]>
 export type TicketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
 }
 export type TicketIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
 }
 export type TicketIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
 }
 
 export type $TicketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Ticket"
   objects: {
+    user: Prisma.$UserPayload<ExtArgs>
     show: Prisma.$ShowPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    name: string
-    email: string
-    phone: string
     paymentId: string | null
     status: string
     createdAt: Date
+    userId: string
     showId: string
   }, ExtArgs["result"]["ticket"]>
   composites: {}
@@ -993,6 +1050,7 @@ readonly fields: TicketFieldRefs;
  */
 export interface Prisma__TicketClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   show<T extends Prisma.ShowDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShowDefaultArgs<ExtArgs>>): Prisma.Prisma__ShowClient<runtime.Types.Result.GetResult<Prisma.$ShowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1024,12 +1082,10 @@ export interface Prisma__TicketClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface TicketFieldRefs {
   readonly id: Prisma.FieldRef<"Ticket", 'String'>
-  readonly name: Prisma.FieldRef<"Ticket", 'String'>
-  readonly email: Prisma.FieldRef<"Ticket", 'String'>
-  readonly phone: Prisma.FieldRef<"Ticket", 'String'>
   readonly paymentId: Prisma.FieldRef<"Ticket", 'String'>
   readonly status: Prisma.FieldRef<"Ticket", 'String'>
   readonly createdAt: Prisma.FieldRef<"Ticket", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"Ticket", 'String'>
   readonly showId: Prisma.FieldRef<"Ticket", 'String'>
 }
     

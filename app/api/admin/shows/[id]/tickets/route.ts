@@ -24,6 +24,7 @@ export async function GET(req: NextRequest, { params }: Params) {
             orderBy: {
                 createdAt: "desc",
             },
+            include: { user: true }
         });
 
         return NextResponse.json({ success: true, tickets });

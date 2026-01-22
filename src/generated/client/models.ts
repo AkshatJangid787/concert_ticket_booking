@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Admin'
+export type * from './models/User'
 export type * from './models/Show'
 export type * from './models/Ticket'
 export type * from './commonInputTypes'

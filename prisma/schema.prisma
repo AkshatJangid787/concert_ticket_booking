@@ -14,11 +14,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
+model User {
   id        String   @id @default(cuid())
+  name      String
   email     String   @unique
   password  String
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
+
+  isVerified Boolean   @default(false)
+  otp        String?
+  otpExpires DateTime?
+
+  tickets Ticket[]
 }
 
 model Show {
@@ -28,19 +36,28 @@ model Show {
   showDate    DateTime
   price       Int
   totalSeats  Int?
-  tickets     Ticket[]
-  createdAt   DateTime @default(now())
+
+  liveEnabled Boolean @default(false)
+  liveLink    String?
+
+  tickets   Ticket[]
+  createdAt DateTime @default(now())
 }
 
 model Ticket {
   id        String   @id @default(cuid())
-  name      String
-  email     String
-  phone     String
   paymentId String?  @unique
   status    String   @default("PENDING")
   createdAt DateTime @default(now())
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
   showId String
   show   Show   @relation(fields: [showId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
 }

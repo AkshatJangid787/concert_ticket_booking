@@ -49,7 +49,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  Admin: 'Admin',
+  User: 'User',
   Show: 'Show',
   Ticket: 'Ticket'
 } as const
@@ -70,14 +70,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const AdminScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   email: 'email',
   password: 'password',
-  createdAt: 'createdAt'
+  role: 'role',
+  createdAt: 'createdAt',
+  isVerified: 'isVerified',
+  otp: 'otp',
+  otpExpires: 'otpExpires'
 } as const
 
-export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const ShowScalarFieldEnum = {
@@ -87,6 +92,8 @@ export const ShowScalarFieldEnum = {
   showDate: 'showDate',
   price: 'price',
   totalSeats: 'totalSeats',
+  liveEnabled: 'liveEnabled',
+  liveLink: 'liveLink',
   createdAt: 'createdAt'
 } as const
 
@@ -95,12 +102,10 @@ export type ShowScalarFieldEnum = (typeof ShowScalarFieldEnum)[keyof typeof Show
 
 export const TicketScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
-  phone: 'phone',
   paymentId: 'paymentId',
   status: 'status',
   createdAt: 'createdAt',
+  userId: 'userId',
   showId: 'showId'
 } as const
 

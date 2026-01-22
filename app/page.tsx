@@ -1,27 +1,36 @@
-export default async function HomePage() {
-  const res = await fetch("http://localhost:3000/api/shows", {
-    cache: "no-store",
-  });
 
-  const data = await res.json();
+"use client";
 
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>Upcoming Shows</h1>
+import HeroSection from "./components/home/HeroSection";
+import MarqueeSection from "./components/home/MarqueeSection";
+import GallerySection from "./components/home/GallerySection";
+import ServicesSection from "./components/home/ServicesSection";
+import FooterCTA from "./components/home/FooterCTA";
+import Footer from "./components/shared/Footer";
 
-      {data.shows.map((show: any) => (
-        <div key={show.id} style={{ marginBottom: 20 }}>
-          <h2>{show.title}</h2>
-          <p>{show.description}</p>
-          <p>
-            {new Date(show.showDate).toLocaleString("en-IN")}
-          </p>
-          <p>₹{show.price}</p>
-          <a href={`/shows/${show.id}`}>
-            Book Ticket →
-          </a>
+export default function HomePage() {
+    return (
+        <div className="relative min-h-screen bg-white text-black overflow-hidden selection:bg-black selection:text-white">
+            {/* Background Grain */}
+            <div className="bg-grain fixed inset-0 opacity-20 pointer-events-none z-10"></div>
+
+            {/* Hero Section */}
+            <HeroSection />
+
+            {/* Marquee Section */}
+            <MarqueeSection />
+
+            {/* Gallery / Vibe Section */}
+            <GallerySection />
+
+            {/* Services Section */}
+            <ServicesSection />
+
+            {/* Footer CTA */}
+            <FooterCTA />
+
+            {/* Footer */}
+            <Footer />
         </div>
-      ))}
-    </div>
-  );
+    );
 }
