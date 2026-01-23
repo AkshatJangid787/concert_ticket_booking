@@ -83,3 +83,34 @@ export function generateTicketEmailHtml(ticket: any, user: any, show: any) {
     </html>
     `;
 }
+
+export function generateVerificationEmailHtml(otp: string) {
+    return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Verify Your Identity - Ashish Soni Live</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: 'Courier New', monospace;">
+        <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; padding: 40px 20px; border: 2px solid black;">
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="margin: 0; font-size: 24px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase;">Ashish Soni</h1>
+            </div>
+
+            <div style="text-align: center;">
+                <h2 style="font-size: 20px; text-transform: uppercase; margin-bottom: 20px;">Verify Identity</h2>
+                <p style="margin-bottom: 10px; color: #666;">Your Access Code is:</p>
+                <div style="background: #eee; padding: 15px; display: inline-block; margin-bottom: 20px;">
+                    <h3 style="margin: 0; font-size: 32px; letter-spacing: 5px; font-weight: bold;">${otp}</h3>
+                </div>
+                <p style="margin: 0; font-size: 12px; color: #999;">Code expires in 10 minutes.</p>
+            </div>
+            
+        </div>
+    </body>
+    </html>
+    `;
+}

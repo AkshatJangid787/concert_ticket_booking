@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
-    const pathname = usePathname();
+    // Hooks
+    const pathname = usePathname(); // Get current URL path
     const [user, setUser] = useState<{ name: string; email: string; role: string } | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Effect: Check if user is logged in on component mount
     useEffect(() => {
         setIsLoading(true);
         fetch("/api/auth/me")
@@ -21,7 +23,8 @@ export default function Navbar() {
                 }
             })
             .catch(() => {
-                // Ignore errors, user remains null
+                // If fetch fails, we just assume user is not logged in.
+                // We typically ignore this error in the UI.
             })
             .finally(() => {
                 setIsLoading(false);
@@ -30,31 +33,42 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         await fetch("/api/auth/logout", { method: "POST" });
-        window.location.href = "/login"; // yai hard browser refresh kar dega taki memory/cashe clear ho jaye..... isliye router.push use nhi kiya 
+        // We use window.location.href to force a hard refresh.
+        // This ensures all client-side memory/cache is cleared after logout.
+        window.location.href = "/login";
     };
 
+    // Helper to check if a link is active
     const isActive = (path: string) => pathname === path;
+
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+    // Don't show Navbar on Login/Register pages
     if (pathname === "/login" || pathname === "/register") return null;
 
     return (
         <>
-            {/* Top Bar with Blend Mode Logic */}
+            {/* 
+              Top Navigation Bar 
+              - We use `mix-blend-difference` when the menu is CLOSED. 
+                This makes the white text readable on both dark and light backgrounds.
+              - When OPEN, we use `mix-blend-normal` so it looks standard.
+            */}
             <nav className={`fixed w-full top-0 z-[100] text-white transition-all duration-300 ${isMenuOpen ? 'mix-blend-normal' : 'mix-blend-difference'}`}>
                 <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-4 md:py-8 flex justify-between items-center relative z-[101]">
-                    {/* Logo */}
+                    {/* Logo Section */}
                     <Link href="/" className="text-2xl md:text-3xl font-black tracking-tighter hover:opacity-70 transition-opacity font-display uppercase relative z-[102]" onClick={() => setIsMenuOpen(false)}>
                         Ashish Soni
                     </Link>
 
-                    {/* Desktop Menu */}
+                    {/* Desktop Menu (Hidden on mobile) */}
                     <div className="hidden md:flex items-center space-x-12 relative z-[102]">
                         {isLoading ? (
-                            // Loading State - Placeholder to prevent layout shift
+                            // Loading State - Simple placeholder to prevent layout jumping
                             <div className="h-6 w-32 bg-white/20 animate-pulse rounded"></div>
                         ) : (
                             <>
+                                {/* Public Links */}
                                 {(!user || user.role === "USER") && (
                                     <>
                                         <Link
@@ -78,6 +92,7 @@ export default function Navbar() {
                                     </>
                                 )}
 
+                                {/* User Specific Links */}
                                 {user?.role === "USER" && (
                                     <Link
                                         href="/dashboard"
@@ -87,12 +102,14 @@ export default function Navbar() {
                                     </Link>
                                 )}
 
+                                {/* Admin Specific Links */}
                                 {user?.role === "ADMIN" && (
                                     <Link href="/admin" className="text-sm font-bold uppercase tracking-[0.2em] text-red-500">
                                         Command Center
                                     </Link>
                                 )}
 
+                                {/* Login / Logout Button */}
                                 {user ? (
                                     <button
                                         onClick={handleLogout}
@@ -112,12 +129,13 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* Mobile Menu Toggle Button (Hamburger) */}
                     <button
                         className="md:hidden flex flex-col gap-2 relative z-[102] group"
                         onClick={toggleMenu}
                         aria-label="Toggle Menu"
                     >
+                        {/* We animate these spans to form an 'X' when open */}
                         <span className={`w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-2.5" : ""}`}></span>
                         <span className={`w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}></span>
                         <span className={`w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-2.5" : ""}`}></span>
@@ -125,14 +143,18 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Menu Overlay - Separate Sibling */}
+            {/* Mobile Menu Overlay */}
+            {/* This slides in from the right when toggled */}
             <div className={`fixed inset-0 bg-black/80 backdrop-blur-md text-white z-[90] flex flex-col justify-center items-center gap-8 transition-transform duration-500 ease-in-out md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
+
+                {/* Background Texture/Grain */}
                 <div className="absolute inset-0 bg-grain opacity-20 pointer-events-none"></div>
 
                 {isLoading ? (
                     <div className="h-8 w-48 bg-white/20 animate-pulse rounded"></div>
                 ) : (
                     <>
+                        {/* Mobile Links */}
                         {(!user || user.role === "USER") && (
                             <>
                                 <Link

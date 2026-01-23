@@ -7,14 +7,17 @@ import { sendEmail } from "@/lib/email";
 import { registerSchema } from "@/lib/validations";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { generateVerificationEmailHtml } from "@/lib/email-templates";
 
-
+// This tells Next.js to always run this route dynamically (not cached)
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
     try {
+        // 1. Security Check: Rate Limiting
+        // We check if this IP address has made too many requests recently.
         const ip = req.headers.get("x-forwarded-for") || "unknown";
-        const limitResult = checkRateLimit(ip, 3, 10 * 60 * 1000); // 3 attempts per 10 mins
+        const limitResult = checkRateLimit(ip, 3, 10 * 60 * 1000); // Allow 3 attempts every 10 minutes
 
         if (!limitResult.success) {
             return NextResponse.json(
@@ -23,28 +26,32 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        // 2. Parsed & Validate Input
         const body = await req.json();
+        // validationSchema.parse(body) will throw an error if data is invalid
         const { name, email, password } = registerSchema.parse(body);
 
-        // Input is now validated and safe
-
-
+        // 3. Check if user already exists
         const exists = await prisma.user.findUnique({
             where: { email }
         });
 
+        // If user is already verified, we can't register them again.
         if (exists && exists.isVerified) {
             return NextResponse.json({ message: "User already exists" }, { status: 400 });
         }
 
+        // 4. Secure the Password
+        // Never store plain text passwords! We hash them using bcrypt.
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Generate 6 digit OTP
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+        // 5. Generate One-Time Password (OTP) for Verification
+        const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit number
+        const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // Expires in 10 minutes
 
+        // 6. Save User to Database
         if (exists && !exists.isVerified) {
-            // User exists but stuck in unverified state -> Overwrite/Reset them
+            // If user exists but isn't verified, we update their details and new OTP
             await prisma.user.update({
                 where: { email },
                 data: {
@@ -55,49 +62,47 @@ export async function POST(req: NextRequest) {
                 }
             });
         } else {
-            // New User
+            // Create a brand new user
             await prisma.user.create({
                 data: {
                     name,
                     email,
-                    password: hashedPassword,
-                    isVerified: false,
+                    password: hashedPassword, // Storing the HASHED password
+                    isVerified: false,        // User must verify email first
                     otp,
                     otpExpires
                 }
             });
         }
 
-        // Send Email
-        const emailSent = await sendEmail(email, "Verify Your Identity - Ashish Soni Live", `
-        <div style="font-family: monospace; padding: 20px; border: 2px solid black; max-width: 500px;">
-            <h1 style="text-transform: uppercase;">Verify Identity</h1>
-            <p>Your Access Code is:</p>
-            <h2 style="font-size: 32px; letter-spacing: 5px; background: #eee; display: inline-block; padding: 10px;">${otp}</h2>
-            <p>Code expires in 10 minutes.</p>
-        </div>
-    `);
+        // 7. Send Verification Email
+        const emailHtml = generateVerificationEmailHtml(otp);
+        const emailSent = await sendEmail(email, "Verify Your Identity - Ashish Soni Live", emailHtml);
 
         if (!emailSent) {
-            // If email fails, we should NOT create the account state where they can't verify.
-            // Delete the user we just created.
+            // If email fails to send, we should delete the unverified user so they can try again.
             await prisma.user.delete({ where: { email } });
             return NextResponse.json({ success: false, message: "Failed to send Verification Email. Please check the email address." }, { status: 500 });
         }
 
+        // 8. Success Response
         return NextResponse.json({ success: true, requireVerification: true, email });
 
     } catch (error) {
+        // Handle Validation Errors specifically
         if (error instanceof z.ZodError) {
-            const message = (error as any).errors?.[0]?.message ||
-                (error as any).issues?.[0]?.message ||
-                "Invalid input";
+            const message = (error as any).errors?.[0]?.message || "Invalid input";
             return NextResponse.json({ message }, { status: 400 });
         }
+
+        // Handle all other server errors
         console.error("Register Error:", error);
+
+        // SECURITY: Never return the raw error message to the user in production.
         return NextResponse.json({
-            message: "Internal server error",
-            error: error instanceof Error ? error.message : "Unknown error"
+            message: "Something went wrong. Please try again later.",
+            // In development, we can still show the error for debugging purposes if needed, 
+            // but for this "production-ready" code, we hide it completely from the response body.
         }, { status: 500 });
     }
 }

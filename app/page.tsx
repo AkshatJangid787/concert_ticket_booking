@@ -10,26 +10,34 @@ import Footer from "./components/shared/Footer";
 
 export default function HomePage() {
     return (
+        // Main Container
+        // We use 'relative' so we can position the background grain absolutely inside it.
+        // 'overflow-hidden' prevents horizontal scrollbars if animations go off-screen.
         <div className="relative min-h-screen bg-white text-black overflow-hidden selection:bg-black selection:text-white">
-            {/* Background Grain */}
+
+            {/* 
+              Background Grain Effect 
+              - This 'fixed' div covers the screen and adds a texture overlay.
+              - 'pointer-events-none' ensures clicks pass through to the buttons below.
+            */}
             <div className="bg-grain fixed inset-0 opacity-20 pointer-events-none z-10"></div>
 
-            {/* Hero Section */}
+            {/* 1. Hero Section: Top part with the main image/video */}
             <HeroSection />
 
-            {/* Marquee Section */}
+            {/* 2. Marquee Section: Scrolling text banner */}
             <MarqueeSection />
 
-            {/* Gallery / Vibe Section */}
+            {/* 3. Gallery / Vibe Section: Grid of images */}
             <GallerySection />
 
-            {/* Services Section */}
+            {/* 4. Services Section: What we offer */}
             <ServicesSection />
 
-            {/* Footer CTA */}
+            {/* 5. Footer Call-to-Action: "Let's work together" */}
             <FooterCTA />
 
-            {/* Footer */}
+            {/* 6. Footer: Standard bottom links */}
             <Footer />
         </div>
     );
