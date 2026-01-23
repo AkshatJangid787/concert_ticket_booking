@@ -23,7 +23,13 @@ export default function LoginPage() {
         if (res.ok) {
             window.location.href = "/";
         } else {
-            setError(data.error || data.message || "Login failed");
+            console.error("Login failed:", res.status, data); // Log for debugging
+            if (res.status === 403 && data.requireVerification) {
+                setError("You must verify your email first.");
+                // Optionally redirect to a verify page?
+            } else {
+                setError(data.error || data.message || "Login failed");
+            }
         }
     }
 
