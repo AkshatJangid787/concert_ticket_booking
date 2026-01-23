@@ -48,9 +48,8 @@ export async function POST(req: NextRequest) {
 
         (await cookies()).set("auth_token", token, {
             httpOnly: true,
-            // TEMPORARY CHANGE: Allow HTTP logins
-            secure: false, // WAS: process.env.NODE_ENV === "production"
-            sameSite: "lax", // WAS: "strict"
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
             maxAge: 60 * 60 * 24 * 7,
             path: "/",
         });
@@ -58,18 +57,16 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: true });
 
     } catch (error) {
-        // Handle Validation Errors
         if (error instanceof z.ZodError) {
-            const message = (error as any).errors?.[0]?.message || "Invalid input";
+            const message = (error as any).errors?.[0]?.message ||
+                (error as any).issues?.[0]?.message ||
+                "Invalid input";
             return NextResponse.json({ message }, { status: 400 });
         }
-
-        // Handle Server Errors
         console.error("Verify Error:", error);
-
-        // SECURITY: Hide internal errors in production
         return NextResponse.json({
-            message: "Something went wrong. Please try again later.",
+            message: "Internal server error",
+            error: error instanceof Error ? error.message : "Unknown error"
         }, { status: 500 });
     }
 }

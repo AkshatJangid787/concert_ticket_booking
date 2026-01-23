@@ -50,10 +50,8 @@ export async function POST(req: NextRequest) {
         // This makes the browser remember the user is logged in
         (await cookies()).set("auth_token", token, {
             httpOnly: true, // JavaScript cannot access this cookie (Security)
-            // TEMPORARY CHANGE: We are allowing login on HTTP for now. 
-            // In a real "secure" app, this should be true for production.
-            secure: false, // WAS: process.env.NODE_ENV === "production"
-            sameSite: "lax", // WAS: "strict" - Lax is easier for simple HTTP testing
+            secure: process.env.NODE_ENV === "production", // Only send over HTTPS in production
+            sameSite: "strict", // Protects against CSRF attacks
             maxAge: 60 * 60 * 24 * 7, // 7 days
             path: "/",
         });
